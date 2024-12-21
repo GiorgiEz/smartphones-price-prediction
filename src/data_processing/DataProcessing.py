@@ -2,11 +2,33 @@ from src.data_processing.HandleOutliers import HandleOutliers
 from src.data_processing.HandleMissingValues import HandleMissingValues
 from src.main.SmartphonesDataset import SmartphonesDataset
 import requests
+from sklearn.preprocessing import LabelEncoder
 
 
 class DataProcessing:
+    """
+        A class for handling missing values in a dataset.
+
+        Attributes:
+        ----------
+        df : pandas.DataFrame
+            The dataset to be processed.
+
+        Methods:
+        -------
+        get_shape()
+        get_info()
+        get_description()
+        get_null_columns()
+        drop_fast_charging_available_col()
+        convert_inr_to_usd()
+        save_cleaned_data()
+        run_process()
+    """
+
     def __init__(self):
         self.df = SmartphonesDataset().get_dataframe()
+        self.categorical_attributes = SmartphonesDataset().get_categorical_attributes()
 
     def get_shape(self):
         """
@@ -86,13 +108,21 @@ class DataProcessing:
             print(f"Error occurred while converting INR to {to_currency}: {e}")
         print()
 
+    def encode_categorical_attributes(self):
+        """ Uses label encoding to encode categorical attributes and replace them with numerical values."""
+        la = LabelEncoder()
+        for col in self.categorical_attributes:
+            self.df[col] = la.fit_transform(self.df[col])
+
     def save_cleaned_data(self):
         """ Saves the dataset in separate csv file after processing is done."""
 
         path = '../../datasets/cleaned_smartphones.csv'
         self.df.to_csv(path, index=False)
 
-    def main(self):
+    def run_process(self):
+        """ Runs the data processing pipeline. This method is called by the main script."""
+
         # General description of the dataset
         self.get_shape()
         self.get_info()
@@ -104,19 +134,19 @@ class DataProcessing:
 
         # Handling outliers
         handle_outliers = HandleOutliers()
-        handle_outliers.check_negative_values()
-        handle_outliers.check_non_numeric_values()
+        handle_outliers.check_num_features_for_outliers()
+        handle_outliers.check_categorical_features_for_outliers()
 
         # Handling null values
         handle_missing_values = HandleMissingValues()
+        handle_missing_values.fill_avg_rating_nulls()
+        handle_missing_values.fill_processor_brand_nulls()
+        handle_missing_values.fill_num_cores_nulls()
+        handle_missing_values.fill_processor_speed_nulls()
+        handle_missing_values.fill_battery_capacity_nulls()
+        handle_missing_values.fill_fast_charging_nulls()
+        handle_missing_values.fill_os_nulls()
+        handle_missing_values.fill_primary_camera_front_nulls()
 
-        # handle_missing_values.fill_avg_rating_nulls()
-        # handle_missing_values.fill_processor_brand_nulls()
-        # handle_missing_values.fill_num_cores_nulls()
-        # handle_missing_values.fill_processor_speed_nulls()
-        # handle_missing_values.fill_battery_capacity_nulls()
-        # handle_missing_values.fill_fast_charging_nulls()
-        # handle_missing_values.fill_os_nulls()
-        # handle_missing_values.fill_primary_camera_front_nulls()
-
-        self.save_cleaned_data()
+        self.encode_categorical_attributes() # Encoding of categorical attributes to numerical values
+        self.save_cleaned_data() # Saving the cleaned data in its own csv file

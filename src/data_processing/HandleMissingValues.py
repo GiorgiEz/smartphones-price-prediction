@@ -2,6 +2,27 @@ from src.main.SmartphonesDataset import SmartphonesDataset
 
 
 class HandleMissingValues:
+    """
+        A class for handling missing values in a dataset.
+
+        Attributes:
+        ----------
+        df : pandas.DataFrame
+            The dataset to be processed.
+
+        Methods:
+        -------
+        fill_nulls()
+        fill_avg_rating_nulls()
+        fill_processor_brand_nulls()
+        fill_num_cores_nulls()
+        fill_processor_speed_nulls()
+        fill_battery_capacity_nulls()
+        fill_fast_charging_nulls()
+        fill_os_nulls()
+        fill_primary_camera_front_nulls()
+    """
+
     def __init__(self):
         self.df = SmartphonesDataset().get_dataframe()
 

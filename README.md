@@ -53,39 +53,38 @@ The dataset contains 980 rows and 22 columns, capturing various attributes of sm
 ## Setup and Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/username/smartphone-ml-project.git
+   git clone https://github.com/GiorgiEz/smartphones-price-prediction.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd smartphone-ml-project
+   cd smartphones-price-prediction
    ```
 3. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
+4. Run the Main.py file in folder main:
+   ```bash
+   python Main.py
+   ```
 
 ## Data Preprocessing
-- Handle missing values in columns such as `fast_charging_available`.
-- Encode categorical features like `brand_name` and `os` using one-hot encoding.
-- Scale continuous variables (e.g., `processor_speed`, `battery_capacity`) to standardize the dataset.
-- Split the dataset into training and testing subsets for model training and evaluation.
+- Get insights about the dataset shape, description, information and null values.
+- Drop fast_charging_available column and convert price column from INR to USD.
+- Handling outliers by inspecting each column, checking if there's any negative values, etc.
+- Handling missing values by either mean, median, mode or by creating default value.
+- Encoding categorical features to numerical values.
 
 ## Exploratory Data Analysis (EDA)
-- Visualize feature distributions (e.g., `price`).
-- Analyze relationships between features and target variables (e.g., correlation heatmaps).
-- Identify patterns and trends in smartphone specifications.
+
 
 ## Model Training and Evaluation
-**Models to be included:**
-- Regression Models for Price Prediction
 
-Details of models trained, hyperparameters used, and evaluation metrics will be added here.
 
 ## Results
-Summarize the findings and performance of the machine learning models. Include key insights and visualizations.
+
 
 ## Future Work
 - Expand the dataset with more recent smartphone data.
 - Integrate additional features such as market demand or customer reviews.
 - Explore advanced models for improved prediction accuracy.
-

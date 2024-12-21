@@ -1,6 +1,38 @@
 import pandas as pd
 
 class SmartphonesDataset:
+    """
+       A singleton class to manage the dataset for smartphone analysis.
+
+       This class ensures that only one instance of the dataset is created and provides access to
+       its attributes and data via getter methods. It handles loading the dataset, defining
+       numerical and categorical attributes, and providing the target variable.
+
+       Attributes:
+       ----------
+       _instance : SmartphonesDataset (private)
+           Class-level attribute to hold the single instance of the class.
+       df : pandas.DataFrame
+           The loaded dataset.
+       target_variable : str
+           The target variable for analysis (default is 'price').
+       numerical_attributes : list
+           A list of numerical attributes in the dataset.
+       categorical_attributes : list
+           A list of categorical attributes in the dataset.
+
+       Methods:
+       -------
+       get_dataframe():
+           Returns the loaded dataframe.
+       get_target_variable():
+           Returns the target variable.
+       get_numerical_attributes():
+           Returns the list of numerical attributes.
+       get_categorical_attributes():
+           Returns the list of categorical attributes.
+    """
+
     _instance = None  # Class-level attribute to hold the single instance
 
     def __new__(cls, *args, **kwargs):
@@ -20,13 +52,13 @@ class SmartphonesDataset:
             if dataset_path is not None:
                 try:
                     # Load the dataset
-                    self.df = pd.read_csv(dataset_path)
+                    self._df = pd.read_csv(dataset_path)
 
                     # Define the target variable
-                    self.target_variable = 'price'
+                    self._target_variable = 'price'
 
                     # Define the numerical attributes
-                    self.numerical_attributes = [
+                    self._numerical_attributes = [
                         'price', 'avg_rating', '5G_or_not', 'num_cores', 'processor_speed', 'battery_capacity',
                         'fast_charging', 'ram_capacity', 'internal_memory', 'screen_size', 'refresh_rate',
                         'num_rear_cameras', 'primary_camera_rear', 'primary_camera_front',
@@ -34,7 +66,7 @@ class SmartphonesDataset:
                     ]
 
                     # Define the categorical attributes
-                    self.categorical_attributes = ['brand_name', 'processor_brand', 'os']
+                    self._categorical_attributes = ['brand_name', 'processor_brand', 'os']
 
                     print("SmartphonesDataset initialized successfully.")
                 except FileNotFoundError:
@@ -48,16 +80,16 @@ class SmartphonesDataset:
 
     def get_dataframe(self):
         """Returns the loaded dataframe."""
-        return self.df
+        return self._df
 
     def get_target_variable(self):
         """Returns the target variable."""
-        return self.target_variable
+        return self._target_variable
 
     def get_numerical_attributes(self):
         """Returns the list of numerical attributes."""
-        return self.numerical_attributes
+        return self._numerical_attributes
 
     def get_categorical_attributes(self):
         """Returns the list of categorical attributes."""
-        return self.categorical_attributes
+        return self._categorical_attributes
