@@ -1,5 +1,3 @@
-from src.data_processing.HandleOutliers import HandleOutliers
-from src.data_processing.HandleMissingValues import HandleMissingValues
 from src.main.SmartphonesDataset import SmartphonesDataset
 import requests
 from sklearn.preprocessing import LabelEncoder
@@ -119,34 +117,3 @@ class DataProcessing:
 
         path = '../../datasets/cleaned_smartphones.csv'
         self.df.to_csv(path, index=False)
-
-    def run_process(self):
-        """ Runs the data processing pipeline. This method is called by the main script."""
-
-        # General description of the dataset
-        self.get_shape()
-        self.get_info()
-        self.get_description()
-        self.get_null_columns()
-
-        self.drop_fast_charging_available_col() # dropping fast_charging_available column
-        self.convert_inr_to_usd() # converting price
-
-        # Handling outliers
-        handle_outliers = HandleOutliers()
-        handle_outliers.check_num_features_for_outliers()
-        handle_outliers.check_categorical_features_for_outliers()
-
-        # Handling null values
-        handle_missing_values = HandleMissingValues()
-        handle_missing_values.fill_avg_rating_nulls()
-        handle_missing_values.fill_processor_brand_nulls()
-        handle_missing_values.fill_num_cores_nulls()
-        handle_missing_values.fill_processor_speed_nulls()
-        handle_missing_values.fill_battery_capacity_nulls()
-        handle_missing_values.fill_fast_charging_nulls()
-        handle_missing_values.fill_os_nulls()
-        handle_missing_values.fill_primary_camera_front_nulls()
-
-        self.encode_categorical_attributes() # Encoding of categorical attributes to numerical values
-        self.save_cleaned_data() # Saving the cleaned data in its own csv file

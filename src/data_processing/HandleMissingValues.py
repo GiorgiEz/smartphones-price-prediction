@@ -105,12 +105,12 @@ class HandleMissingValues:
         Since 'fast_charging' is given in watts, filling it with 0 represents no fast charging.
         """
 
-    @fill_nulls('os', lambda df: df['os'].fillna('Unknown'))
+    @fill_nulls('os', lambda df: df['os'].fillna('other'))
     def fill_os_nulls(self):
         """
-        Fills missing (NaN) values in the 'os' column with 'Unknown'.
-        Since 'os' is a categorical column, missing values are assumed to represent unspecified or unknown
-        operating systems, and they are replaced with the string 'Unknown'.
+        Fills missing (NaN) values in the 'os' column with 'other'.
+        Since 'os' is a categorical column, missing values are assumed to represent unspecified or other
+        operating systems, and they are replaced with the string 'other'.
         """
 
     @fill_nulls('primary_camera_front',
