@@ -25,7 +25,7 @@ class ExploratoryDataAnalysis:
 
     def __init__(self):
         self.smartphones_instance = SmartphonesDataset()
-        self.df = self.smartphones_instance.get_dataframe()
+        self.df = self.smartphones_instance.get_df()
         self.numerical_attributes = self.smartphones_instance.get_numerical_attributes()
 
     def correlation_heatmap(self):

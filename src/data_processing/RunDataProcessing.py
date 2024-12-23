@@ -1,6 +1,6 @@
-from src.data_processing.HandleOutliers import HandleOutliers
-from src.data_processing.HandleMissingValues import HandleMissingValues
-from src.data_processing.DataProcessing import DataProcessing
+from src.data_processing.data_cleaning.HandleOutliers import HandleOutliers
+from src.data_processing.data_cleaning.HandleMissingValues import HandleMissingValues
+from src.data_processing.data_cleaning.DataProcessing import DataProcessing
 
 
 class RunDataProcessing:
@@ -32,9 +32,9 @@ class RunDataProcessing:
         self.data_processing.get_description()
         self.data_processing.get_null_columns()
 
-        self.data_processing.drop_fast_charging_available_col() # dropping fast_charging_available column
-        self.data_processing.convert_inr_to_usd() # converting price
-        self.data_processing.deduplication() # remove the duplicates
+        self.data_processing.drop_fast_charging_available_col()  # dropping fast_charging_available column
+        self.data_processing.convert_inr_to_usd()  # converting price
+        self.data_processing.deduplication()  # remove the duplicates
 
         # Handling outliers
         self.handle_outliers.check_num_features_for_outliers()
@@ -50,4 +50,4 @@ class RunDataProcessing:
         self.handle_missing_values.fill_os_nulls()
         self.handle_missing_values.fill_primary_camera_front_nulls()
 
-        self.data_processing.save_cleaned_data() # Saving the cleaned data in its own csv file
+        self.data_processing.save_cleaned_data()  # Saving the cleaned data in its own csv file
