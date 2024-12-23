@@ -4,12 +4,32 @@ import seaborn as sns
 
 
 class ExploratoryDataAnalysis:
+    """
+        A class for exploratory data analysis (EDA) on smartphones dataset.
+
+        Attributes:
+        ----------
+        smartphones_instance : Instance of SmartphonesDataset class
+        df: pandas.DataFrame
+        numerical_attributes: list of numerical attributes of smartphones dataset
+
+        Methods:
+        -------
+        correlation_heatmap()
+        processor_speed_strip_plot()
+        os_pie_chart()
+        feature_distribution_plot()
+        avg_feature_by_brand()
+        pie_chart_feature_by_brand()
+    """
+
     def __init__(self):
         self.smartphones_instance = SmartphonesDataset()
         self.df = self.smartphones_instance.get_dataframe()
         self.numerical_attributes = self.smartphones_instance.get_numerical_attributes()
 
     def correlation_heatmap(self):
+        """ Displays the correlation heatmap of numerical attributes. """
         correlation_matrix = self.df[self.numerical_attributes].corr()
 
         # Plot the heatmap
@@ -26,17 +46,36 @@ class ExploratoryDataAnalysis:
         plt.title('Correlation Heatmap')
         plt.show()
 
-    def feature_distribution_plot(self, column_name):
-        price_data = self.df[column_name]
-
-        # Plot the histogram with KDE overlay
+    def processor_speed_strip_plot(self):
+        """ Displays a strip plot of processor speed by processor brand. """
         plt.figure(figsize=(10, 6))
-        sns.histplot(price_data, kde=True, color='skyblue', bins=30,
+        sns.stripplot(x='processor_brand', y='processor_speed', data=self.df,
+                      palette='Set2', hue='processor_brand', jitter=True, legend=False)
+        plt.title('Processor Speed by Processor Brand', fontsize=14)
+        plt.xlabel('Processor Brand', fontsize=12)
+        plt.ylabel('Processor Speed (GHz)', fontsize=12)
+        plt.xticks(rotation=45, fontsize=8)
+        plt.show()
+
+    def os_pie_chart(self):
+        """ Displays a pie chart of operating system distribution. """
+        os_counts = self.df['os'].value_counts()
+
+        plt.figure(figsize=(8, 8))
+        os_counts.plot.pie(autopct='%1.1f%%', startangle=90, cmap='Set3', explode=[0.05] + [0] * len(os_counts[1:]))
+        plt.title('Operating System Distribution', fontsize=14)
+        plt.ylabel('')
+        plt.show()
+
+    def feature_distribution_plot(self, col_name):
+        """ Displays a histogram with KDE overlay of a given feature."""
+
+        plt.figure(figsize=(10, 6))
+        sns.histplot(self.df[col_name], kde=True, color='skyblue', bins=30,
                      stat='density', linewidth=0)
 
-        # Set the title and labels
-        plt.title(f'{column_name} Distribution with KDE Overlay', fontsize=14)
-        plt.xlabel(column_name, fontsize=12)
+        plt.title(f'{col_name} Distribution with KDE Overlay', fontsize=14)
+        plt.xlabel(col_name, fontsize=12)
         plt.ylabel('Density', fontsize=12)
 
         plt.show()
@@ -49,7 +88,6 @@ class ExploratoryDataAnalysis:
         # Sort the dataframe by the average feature for each brand
         brand_ratings = self.df.groupby('brand_name')[col_name].mean().sort_values()
 
-        # Select the top 10 and least 10 brands based on the feature
         top_10_brands = brand_ratings.tail(10)  # Top 10 highest averages
         least_10_brands = brand_ratings.head(10)  # Least 10 lowest averages
 
@@ -91,4 +129,26 @@ class ExploratoryDataAnalysis:
 
         # Display the plot
         plt.tight_layout()
+        plt.show()
+
+    def pie_chart_feature_by_brand(self, col_name):
+        """ Plots a pie chart showing the percentage of features by brand. """
+
+        # Calculate percentage based on all 5G smartphones, not just the top 10
+        brand_feature_counts = self.df[self.df[col_name] > 0]['brand_name'].value_counts()
+        top_10_counts = brand_feature_counts.head(10) # Select top 10 brands
+
+        # Plot the pie chart
+        plt.figure(figsize=(10, 8))
+        top_10_counts.plot.pie(
+            autopct='%1.1f%%',
+            startangle=90,
+            cmap='tab20',
+            legend=False,
+            labels=top_10_counts.index,
+            explode=[0.05] + [0.01] * 9,
+        )
+
+        plt.title(f'Percentage of {col_name} Smartphones by Top 10 Brands', fontsize=14)
+        plt.ylabel('')
         plt.show()

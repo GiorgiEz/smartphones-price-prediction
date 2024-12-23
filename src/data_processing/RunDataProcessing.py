@@ -4,6 +4,20 @@ from src.data_processing.DataProcessing import DataProcessing
 
 
 class RunDataProcessing:
+    """
+        Main class for running the data processing pipeline.
+
+        Attributes:
+        ----------
+        data_processing : instance of DataProcessing class
+        handle_outliers : instance of HandleOutliers class
+        handle_missing_values : instance of HandleMissingValues class
+
+        Methods:
+        -------
+        run_process()
+    """
+
     def __init__(self):
         self.data_processing = DataProcessing()
         self.handle_outliers = HandleOutliers()
@@ -20,6 +34,7 @@ class RunDataProcessing:
 
         self.data_processing.drop_fast_charging_available_col() # dropping fast_charging_available column
         self.data_processing.convert_inr_to_usd() # converting price
+        self.data_processing.deduplication() # remove the duplicates
 
         # Handling outliers
         self.handle_outliers.check_num_features_for_outliers()
@@ -35,5 +50,4 @@ class RunDataProcessing:
         self.handle_missing_values.fill_os_nulls()
         self.handle_missing_values.fill_primary_camera_front_nulls()
 
-        # self.encode_categorical_attributes() # Encoding of categorical attributes to numerical values
         self.data_processing.save_cleaned_data() # Saving the cleaned data in its own csv file

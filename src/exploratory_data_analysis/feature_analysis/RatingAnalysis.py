@@ -1,15 +1,22 @@
 from src.exploratory_data_analysis.ExploratoryDataAnalysis import ExploratoryDataAnalysis
-from src.main.SmartphonesDataset import SmartphonesDataset
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 
 class RatingAnalysis(ExploratoryDataAnalysis):
+    """
+        A class for analyzing the avg_rating feature of smartphones.
+
+        Inherits from ExploratoryDataAnalysis class.
+
+        Methods:
+        -------
+        avg_rating_distribution_plot()
+        avg_rating_vs_price()
+    """
+
     def __init__(self):
         super().__init__()
-        self.smartphones_instance = SmartphonesDataset()
-        self.df = self.smartphones_instance.get_dataframe()
-        self.numerical_attributes = self.smartphones_instance.get_numerical_attributes()
 
     def avg_rating_distribution_plot(self):
         """

@@ -1,11 +1,10 @@
 from src.main.SmartphonesDataset import SmartphonesDataset
 import requests
-from sklearn.preprocessing import LabelEncoder
 
 
 class DataProcessing:
     """
-        A class for handling missing values in a dataset.
+        A class for data processing on a dataset.
 
         Attributes:
         ----------
@@ -106,11 +105,21 @@ class DataProcessing:
             print(f"Error occurred while converting INR to {to_currency}: {e}")
         print()
 
-    def encode_categorical_attributes(self):
-        """ Uses label encoding to encode categorical attributes and replace them with numerical values."""
-        la = LabelEncoder()
-        for col in self.categorical_attributes:
-            self.df[col] = la.fit_transform(self.df[col])
+    def deduplication(self):
+        """
+        Removes duplicate rows from the dataset based on the 'model' column.
+        Ensures only unique entries for each model remain in the dataset.
+        """
+        try:
+            if 'model' in self.df.columns:
+                before_count = len(self.df)
+                self.df = self.df.drop_duplicates(subset=['model'])
+                after_count = len(self.df)
+                print(f"Removed {before_count - after_count} duplicate entries based on 'model'.")
+            else:
+                print("COLUMN 'model' DOES NOT EXIST IN THE DATASET.")
+        except Exception as e:
+            print(f"Error occurred while removing duplicates: {e}")
 
     def save_cleaned_data(self):
         """ Saves the dataset in separate csv file after processing is done."""

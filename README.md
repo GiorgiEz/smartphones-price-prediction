@@ -72,10 +72,34 @@ The dataset contains 980 rows and 22 columns, capturing various attributes of sm
 - Get insights about the dataset shape, description, information and null values.
 - Drop fast_charging_available column and convert price column from INR to USD.
 - Handling outliers by inspecting each column, checking if there's any negative values, etc.
-- Handling missing values by either mean, median, mode or by creating default value.
-- Encoding categorical features to numerical values.
+- Filling missing values by either mean, median, mode or by creating default value.
+- Removing duplicates based on column 'model'.
 
 ## Exploratory Data Analysis (EDA)
+Exploratory Data Analysis (EDA) focused on uncovering key insights and trends in the smartphone dataset using various visualizations:
+
+- Price Analysis
+   - Explored correlations between price and other features with correlation bar plots.
+   - Visualized price distributions and compared pricing for smartphones with and without 5G.
+
+- Rating Insights
+   - Examined the distribution of average ratings and their relationship with price to understand how customer satisfaction aligns with cost.
+
+- Brand Analysis
+   - Displayed brand distributions to highlight the most common brands.
+   - Analyzed average price and ratings by brand, with pie charts illustrating features like 5G and fast charging adoption across brands.
+   - Investigated brand trends for rear camera counts and visualized their averages.
+
+- Model Highlights
+   - Compared the most expensive and highest-rated models side by side to identify standout devices.
+   - Used pie charts to show 5G and memory availability distributions across models.
+   - Created visual comparisons for pricing trends among 5G and non-5G smartphones.
+
+- General Insights
+   - Assessed processor speed by brand using strip plots for clarity.
+   - Visualized OS distributions through pie charts.
+
+These visualizations enable a deep dive into the dataset, shedding light on important features and trends that could impact further analysis or decision-making.
 
 
 ## Model Training and Evaluation

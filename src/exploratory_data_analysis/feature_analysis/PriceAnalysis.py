@@ -1,15 +1,22 @@
-from src.main.SmartphonesDataset import SmartphonesDataset
 from src.exploratory_data_analysis.ExploratoryDataAnalysis import ExploratoryDataAnalysis
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 
 class PriceAnalysis(ExploratoryDataAnalysis):
+    """
+        A class for analyzing the price feature of smartphones.
+
+        Inherits from ExploratoryDataAnalysis class.
+
+        Methods:
+        -------
+        correlation_bar_plots()
+        price_distribution_plot()
+    """
+
     def __init__(self):
         super().__init__()
-        self.smartphones_instance = SmartphonesDataset()
-        self.df = self.smartphones_instance.get_dataframe()
-        self.numerical_attributes = self.smartphones_instance.get_numerical_attributes()
 
     def correlation_bar_plots(self):
         """
@@ -58,9 +65,5 @@ class PriceAnalysis(ExploratoryDataAnalysis):
         """
 
     def price_distribution_plot(self):
-        """
-        Plots a histogram with a Kernel Density Estimate (KDE) overlay
-        to visualize the distribution of prices. This helps in understanding
-        the skewness, spread, and potential outliers in the price column.
-        """
+        """ Calls feature_distribution_plot() with 'price' as the feature argument."""
         self.feature_distribution_plot('price')
