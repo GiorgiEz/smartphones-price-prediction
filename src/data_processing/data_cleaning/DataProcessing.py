@@ -8,8 +8,7 @@ class DataProcessing:
 
         Attributes:
         ----------
-        df : pandas.DataFrame
-            The dataset to be processed.
+        df : The dataset to be processed.
 
         Methods:
         -------
@@ -24,15 +23,14 @@ class DataProcessing:
     """
 
     def __init__(self):
-        self.df = SmartphonesDataset().get_dataframe()
-        self.categorical_attributes = SmartphonesDataset().get_categorical_attributes()
+        self.dataset = SmartphonesDataset()
 
     def get_shape(self):
         """
         Prints the shape of the dataset (number of rows and columns).
         Useful for quickly understanding the size of the dataset.
         """
-        print("SHAPE OF THE DATASET: ", self.df.shape, '\n')
+        print("SHAPE OF THE DATASET: ", self.dataset.get_df().shape, '\n')
 
     def get_info(self):
         """
@@ -40,7 +38,7 @@ class DataProcessing:
         and non-null counts for each column. Helpful for understanding the dataset structure.
         """
         print("DATASET INFORMATION: ")
-        print(self.df.info(), '\n')
+        print(self.dataset.get_df().info(), '\n')
 
     def get_description(self):
         """
@@ -48,7 +46,7 @@ class DataProcessing:
         min, max, standard deviation, etc. Useful for a quick overview of data distribution.
         """
         print("DESCRIPTION OF THE DATASET:\n")
-        print(self.df.describe(), '\n')
+        print(self.dataset.get_df().describe(), '\n')
 
     def get_null_columns(self):
         """
@@ -56,7 +54,7 @@ class DataProcessing:
         Useful for identifying columns with missing data that may need imputation.
         """
         print("AMOUNT OF NULL VALUES IN EACH COLUMN:")
-        print(self.df.isnull().sum(), '\n')
+        print(self.dataset.get_df().isnull().sum(), '\n')
 
     def drop_fast_charging_available_col(self):
         """
@@ -66,8 +64,8 @@ class DataProcessing:
         """
         try:
             # Check if the column exists before dropping
-            if 'fast_charging_available' in self.df.columns:
-                self.df.drop(columns=['fast_charging_available'], inplace=True)
+            if 'fast_charging_available' in self.dataset.get_df().columns:
+                self.dataset.get_df().drop(columns=['fast_charging_available'], inplace=True)
                 print("COLUMN 'fast_charging_available' DROPPED")
             else:
                 print("COLUMN 'fast_charging_available' DOES NOT EXIST")
@@ -94,8 +92,9 @@ class DataProcessing:
             # print(f"Current INR to {to_currency} rate: {inr_to_new_currency_rate}")
 
             # Ensure the INR column exists
-            if price_col in self.df.columns:
-                self.df[price_col] = round(self.df[price_col] * inr_to_new_currency_rate)
+            if price_col in self.dataset.get_df().columns:
+                self.dataset.get_df()[price_col] = (
+                    round(self.dataset.get_df()[price_col] * inr_to_new_currency_rate))
                 print(f"Converted price to '{to_currency}' from INR.")
             else:
                 print("Column price does not exist in the dataset.")
@@ -110,12 +109,13 @@ class DataProcessing:
         Removes duplicate rows from the dataset based on the 'model' column.
         Ensures only unique entries for each model remain in the dataset.
         """
+        df = self.dataset.get_df()
         try:
-            if 'model' in self.df.columns:
-                before_count = len(self.df)
-                self.df = self.df.drop_duplicates(subset=['model'])
-                after_count = len(self.df)
-                print(f"Removed {before_count - after_count} duplicate entries based on 'model'.")
+            if 'model' in df.columns:
+                before_count = len(df)
+                df.drop_duplicates(subset=['model'], inplace=True)
+                after_count = len(df)
+                print(f"Removed {before_count - after_count} duplicate entries based on 'model'.\n")
             else:
                 print("COLUMN 'model' DOES NOT EXIST IN THE DATASET.")
         except Exception as e:
@@ -125,4 +125,4 @@ class DataProcessing:
         """ Saves the dataset in separate csv file after processing is done."""
 
         path = '../../datasets/cleaned_smartphones.csv'
-        self.df.to_csv(path, index=False)
+        self.dataset.get_df().to_csv(path, index=False)

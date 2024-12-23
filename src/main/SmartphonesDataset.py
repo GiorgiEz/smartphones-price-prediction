@@ -78,7 +78,7 @@ class SmartphonesDataset:
 
             self.initialized = True  # Mark as initialized
 
-    def get_dataframe(self):
+    def get_df(self):
         """Returns the loaded dataframe."""
         return self._df
 
