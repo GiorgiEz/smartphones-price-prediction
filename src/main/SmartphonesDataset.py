@@ -82,7 +82,7 @@ class SmartphonesDataset:
         """Returns the loaded dataframe."""
         return self._df
 
-    def get_target_variable(self):
+    def get_target_var(self):
         """Returns the target variable."""
         return self._target_variable
 

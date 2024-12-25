@@ -58,3 +58,4 @@ class RunEDA:
         # General analysis
         self.exploratory_data_analysis.processor_speed_strip_plot()
         self.exploratory_data_analysis.os_pie_chart()
+        print()
