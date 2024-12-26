@@ -69,11 +69,17 @@ The dataset contains 980 rows and 22 columns, capturing various attributes of sm
    ```
 
 ## Data Preprocessing
-- Get insights about the dataset shape, description, information and null values.
-- Drop fast_charging_available column and convert price column from INR to USD.
-- Handling outliers by inspecting each column, checking if there's any negative values, etc.
-- Filling missing values by either mean, median, mode or by creating default value.
-- Removing duplicates based on column 'model'.
+In this project, the dataset underwent several preprocessing steps to ensure data quality and suitability for analysis. These steps included:
+
+- Initial Data Exploration: Gaining insights into the dataset's structure, content, and potential issues by examining its shape, descriptive statistics, data types, and missing values.
+- Data Cleaning:
+  - Dropping irrelevant columns (e.g., fast_charging_available).
+  - Converting the price column from Indian Rupees (INR) to US Dollars (USD) for consistency.
+- Outlier Handling: Identifying and addressing outliers in each column to prevent them from skewing the analysis. This involved checking for negative values and other anomalies.
+- Missing Value Imputation: Filling in missing values using appropriate strategies such as mean, median, mode imputation, or assigning default values based on the column's characteristics.
+- Duplicate Removal: Removing duplicate entries based on the model column to ensure data uniqueness and prevent redundancy in the analysis.
+
+These preprocessing steps ensure that the dataset is clean, consistent, and ready for further analysis and modeling.
 
 ## Exploratory Data Analysis (EDA)
 Exploratory Data Analysis (EDA) focused on uncovering key insights and trends in the smartphone dataset using various visualizations:
