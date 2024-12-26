@@ -75,33 +75,41 @@ class DataProcessing:
 
     def convert_inr_to_usd(self, to_currency='USD'):
         """
-        Since prices are provided in INR we can use real-time currency API to convert prices from INR to USD.
+        Converts prices in INR to the specified currency using the real-time exchange rate.
+        If the API request fails, a constant exchange rate is used as a fallback.
 
         Parameters:
-        - to_currency (str): The currency to convert prices to. Defaults to 'USD'
+        - to_currency (str): The currency to convert prices to. Defaults to 'USD'.
 
-        This method fetches the latest INR to USD conversion rate and applies it to the specified column.
+        This method fetches the latest INR to USD conversion rate and applies it to the price column.
+        If the API fails, a fallback conversion rate is used.
         """
+        price_col = 'price'
         try:
-            price_col = 'price'
-            # Fetch the latest exchange rate (replace with your API of choice)
+            # Attempt to fetch the latest exchange rate from the API
             response = requests.get("https://api.exchangerate-api.com/v4/latest/INR")
             response.raise_for_status()  # Raise an exception for HTTP errors
             exchange_data = response.json()
             inr_to_new_currency_rate = exchange_data['rates'][to_currency.upper()]
-            # print(f"Current INR to {to_currency} rate: {inr_to_new_currency_rate}")
-
-            # Ensure the INR column exists
-            if price_col in self.dataset.get_df().columns:
-                self.dataset.get_df()[price_col] = (
-                    round(self.dataset.get_df()[price_col] * inr_to_new_currency_rate))
-                print(f"Converted price to '{to_currency}' from INR.")
-            else:
-                print("Column price does not exist in the dataset.")
+            print(f"Fetched INR to {to_currency} conversion rate from API: {inr_to_new_currency_rate}")
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching exchange rate: {e}")
+            print(f"Error fetching exchange rate from API: {e}")
+            # Fallback to a constant exchange rate if the API call fails
+            inr_to_new_currency_rate = 0.012  # Example fallback rate (INR to USD)
+            print(f"Using fallback conversion rate: INR to {to_currency} = {inr_to_new_currency_rate}")
         except Exception as e:
             print(f"Error occurred while converting INR to {to_currency}: {e}")
+            # Fallback rate in case of any other errors
+            inr_to_new_currency_rate = 0.012
+            print(f"Using fallback conversion rate: INR to {to_currency} = {inr_to_new_currency_rate}")
+
+        # Ensure the price column exists in the dataset
+        if price_col in self.dataset.get_df().columns:
+            self.dataset.get_df()[price_col] = (
+                round(self.dataset.get_df()[price_col] * inr_to_new_currency_rate, 2))
+            print(f"Converted price to '{to_currency}' from INR.")
+        else:
+            print("Column 'price' does not exist in the dataset.")
         print()
 
     def deduplication(self):
