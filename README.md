@@ -101,12 +101,54 @@ Exploratory Data Analysis (EDA) focused on uncovering key insights and trends in
 
 These visualizations enable a deep dive into the dataset, shedding light on important features and trends that could impact further analysis or decision-making.
 
-
 ## Model Training and Evaluation
 
+In this project, multiple machine learning models are trained and evaluated on a dataset to predict smartphone price. The following models are used:
+
+- **Linear Regression**
+- **Random Forest Regressor**
+- **Gradient Boosting Regressor**
+- **Decision Tree Regressor**
+
+Each model is trained on the same dataset, with feature engineering applied before training. The dataset is preprocessed using one-hot encoding and frequency encoding, followed by the addition of derived features such as `processor_power`, `price_per_core`, `price_per_gb_ram`, `battery_life_indicator`, `pixel_density`, `camera_pixel_quality` and `performance_index`. 
+The models are evaluated based on the following metrics:
+- **MSE (Mean Squared Error)**
+- **MAE (Mean Absolute Error)**
+- **R2 (R-squared)**
+
+The training results for each model are reported both **before** and **after** feature engineering.
 
 ## Results
 
+### Training Linear Regression:
+| Metric | Before Feature Engineering | After Feature Engineering |
+|--------|----------------------------|---------------------------|
+| MSE    | 26929.34                   | 991.12                    |
+| MAE    | 108.74                     | 16.09                     |
+| R2     | 0.82                       | 0.99                      |
+
+### Training Random Forest:
+| Metric | Before Feature Engineering | After Feature Engineering |
+|--------|----------------------------|---------------------------|
+| MSE    | 17440.64                   | 2463.01                   |
+| MAE    | 67.69                      | 11.14                     |
+| R2     | 0.88                       | 0.98                      |
+
+### Training Gradient Boosting:
+| Metric | Before Feature Engineering | After Feature Engineering |
+|--------|----------------------------|---------------------------|
+| MSE    | 91702.21                   | 1135.89                   |
+| MAE    | 100.52                     | 10.87                     |
+| R2     | 0.38                       | 0.99                      |
+
+### Training Decision Tree:
+| Metric | Before Feature Engineering | After Feature Engineering |
+|--------|----------------------------|---------------------------|
+| MSE    | 23927.36                   | 4262.02                   |
+| MAE    | 86.01                      | 15.45                     |
+| R2     | 0.84                       | 0.97                      |
+
+These results demonstrate the improvement in model performance after feature engineering, with notable increases in R-squared values and decreases in MSE and MAE across all models.
 
 ## Future Work
 - Expand the dataset with more recent smartphone data.
