@@ -2,8 +2,6 @@ from src.data_processing.RunDataProcessing import RunDataProcessing
 from src.exploratory_data_analysis.RunEDA import RunEDA
 from src.machine_learning.RunML import RunML
 
-
-
 if __name__ == '__main__':
     """ Part 1: Data Processing """
     data_processing = RunDataProcessing()  # Call data processing class
