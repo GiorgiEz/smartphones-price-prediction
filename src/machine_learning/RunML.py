@@ -9,11 +9,12 @@ class RunML:
     This class is responsible for running multiple machine learning models.
     It initializes the models and trains them by calling their respective training functions.
 
-    Attributes:
-        linear_model (LinearModel): An instance of the LinearModel class for linear regression.
-        random_forest_model (RandomForestModel): An instance of the RandomForestModel class for random forest regression.
-        gradient_boosting_model (GradientBoostingModel): An instance of the GradientBoostingModel class for gradient boosting regression.
-        decision_tree_model (DecisionTreeModel): An instance of the DecisionTreeModel class for decision tree regression.
+    Attributes: linear_model (LinearModel): An instance of the LinearModel class for linear regression.
+    random_forest_model (RandomForestModel): An instance of the RandomForestModel class for random forest regression.
+    gradient_boosting_model (GradientBoostingModel): An instance of the GradientBoostingModel class for gradient
+    boosting regression.
+    decision_tree_model (DecisionTreeModel): An instance of the DecisionTreeModel class for
+    decision tree regression.
     """
 
     def __init__(self):

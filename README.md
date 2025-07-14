@@ -129,29 +129,29 @@ The training results for each model are reported both **before** and **after** f
 ### Training Linear Regression:
 | Metric | Before Feature Engineering | After Feature Engineering |
 |--------|----------------------------|---------------------------|
-| MSE    | 26929.34                   | 991.12                    |
-| MAE    | 108.74                     | 16.09                     |
+| MSE    | 26929                      | 991                       |
+| MAE    | 108                        | 16                        |
 | R2     | 0.82                       | 0.99                      |
 
 ### Training Random Forest:
 | Metric | Before Feature Engineering | After Feature Engineering |
 |--------|----------------------------|---------------------------|
-| MSE    | 17440.64                   | 2463.01                   |
-| MAE    | 67.69                      | 11.14                     |
+| MSE    | 17440                      | 2463                      |
+| MAE    | 67                         | 11                        |
 | R2     | 0.88                       | 0.98                      |
 
 ### Training Gradient Boosting:
 | Metric | Before Feature Engineering | After Feature Engineering |
 |--------|----------------------------|---------------------------|
-| MSE    | 91702.21                   | 1135.89                   |
-| MAE    | 100.52                     | 10.87                     |
+| MSE    | 91702                      | 1135                      |
+| MAE    | 100                        | 10                        |
 | R2     | 0.38                       | 0.99                      |
 
 ### Training Decision Tree:
 | Metric | Before Feature Engineering | After Feature Engineering |
 |--------|----------------------------|---------------------------|
-| MSE    | 23927.36                   | 4262.02                   |
-| MAE    | 86.01                      | 15.45                     |
+| MSE    | 23927                      | 4262                      |
+| MAE    | 86                         | 15                        |
 | R2     | 0.84                       | 0.97                      |
 
 These results demonstrate the improvement in model performance after feature engineering, with notable increases in R-squared values and decreases in MSE and MAE across all models.
