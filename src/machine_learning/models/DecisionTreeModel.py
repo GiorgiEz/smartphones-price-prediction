@@ -15,6 +15,6 @@ class DecisionTreeModel(ModelTraining):
         """ Trains the Decision Tree model and saves the results. """
 
         decision_tree = DecisionTreeRegressor(random_state=42)
-        encoded_df = self._one_hot_encoding()
-        self._train_and_write_to_file(decision_tree, encoded_df, 'Decision Tree')
+        encoded_df, one_hot_maps = self._one_hot_encoding()
+        self._train_and_write_to_file(decision_tree, encoded_df, 'Decision Tree', one_hot_maps)
 

@@ -1,7 +1,8 @@
-from src.main.SmartphonesDataset import SmartphonesDataset
+from src.data_processing.SmartphonesDataset import SmartphonesDataset
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import pandas as pd
+import joblib
 
 
 class ModelTraining:
@@ -56,8 +57,6 @@ class ModelTraining:
         df = df.copy()
 
         df['processor_power'] = df['num_cores'] * df['processor_speed']
-        df['price_per_core'] = df['price'] / df['num_cores']
-        df['price_per_gb_ram'] = df['price'] / df['ram_capacity']
         df['battery_life_indicator'] = df['battery_capacity'] / df['processor_speed']
         df['pixel_density'] = (df['resolution_height'] * df['resolution_width']) / (df['screen_size'] ** 2)
         df['camera_pixel_quality'] = df['primary_camera_rear'] + df['primary_camera_front']
@@ -68,16 +67,25 @@ class ModelTraining:
         return df
 
     def _one_hot_encoding(self):
-        """ Implements one-hot encoding for categorical features. """
-        return pd.get_dummies(self._df, columns=self._cat_attributes, dtype='int')
+        """ Implements one-hot encoding for categorical features and returns mapping. """
+        encoded_df = pd.get_dummies(self._df, columns=self._cat_attributes, dtype='int')
+
+        # Create a mapping: original column name -> list of new one-hot columns
+        one_hot_maps = {}
+        for col in self._cat_attributes:
+            one_hot_maps[col] = [c for c in encoded_df.columns if c.startswith(col + "_")]
+
+        return encoded_df, one_hot_maps
 
     def _frequency_encoding(self):
-        """ Implements frequency encoding for categorical features. """
+        """ Implements frequency encoding for categorical features and returns mapping. """
         encoded_df = self._df.copy()
+        freq_maps = {}
         for category in self._cat_attributes:
             freq_encoding = encoded_df[category].value_counts() / len(encoded_df)
-            encoded_df[category] = encoded_df[category].map(freq_encoding)
-        return encoded_df
+            freq_maps[category] = freq_encoding.to_dict()
+            encoded_df[category] = encoded_df[category].map(freq_maps[category])
+        return encoded_df, freq_maps
 
     def _train_model(self, model, encoded_df):
         """ Trains the given model and returns the scores from testing the model. """
@@ -92,18 +100,41 @@ class ModelTraining:
         y_pred = model.predict(X_test)
 
         return (mean_squared_error(y_test, y_pred),
-                mean_absolute_error(y_test, y_pred), r2_score(y_test, y_pred))
+                mean_absolute_error(y_test, y_pred),
+                r2_score(y_test, y_pred),
+                model,
+                X_train.columns)
 
-    def _train_and_write_to_file(self, model, encoded_df, model_name):
+    def _train_and_write_to_file(self, model, encoded_df, model_name, encoding_maps):
         """ Trains the given model and writes the results to file. """
         # We perform feature engineering on encoded dataframe
         derived_features_df = self._add_derived_features(encoded_df)
 
         # Before feature engineering
-        mse_before, mae_before, r2_before = self._train_model(model, encoded_df)
+        mse_before, mae_before, r2_before, _, _ = self._train_model(model, encoded_df)
 
         # After feature engineering
-        mse_after, mae_after, r2_after = self._train_model(model, derived_features_df)
+        mse_after, mae_after, r2_after, trained_model, feature_columns = self._train_model(model, derived_features_df)
+
+        # Save trained model & feature order
+        save_path = f"saved_models/{model_name.replace(' ', '_').lower()}_model.pkl"
+
+        if model_name == 'Gradient Boosting':
+            joblib.dump({
+                "model": trained_model,
+                "features": list(feature_columns),
+                "maps": encoding_maps,
+                "type": "frequency"
+            }, save_path)
+        else:
+            joblib.dump({
+                "model": trained_model,
+                "features": list(feature_columns),
+                "maps": encoding_maps,
+                "type": "one-hot"
+            }, save_path)
+
+        print(f"✅ Model saved to {save_path}")
 
         # A comparison table
         results = pd.DataFrame({
