@@ -15,5 +15,5 @@ class GradientBoostingModel(ModelTraining):
         """ Trains the Gradient Boosting Regression model and saves the results."""
 
         gradient_boosting = GradientBoostingRegressor(random_state=42, n_estimators=200, learning_rate=0.1)
-        encoded_df = self._frequency_encoding()
-        self._train_and_write_to_file(gradient_boosting, encoded_df, 'Gradient Boosting')
+        encoded_df, freq_maps = self._frequency_encoding()
+        self._train_and_write_to_file(gradient_boosting, encoded_df, 'Gradient Boosting', freq_maps)

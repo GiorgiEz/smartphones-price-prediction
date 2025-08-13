@@ -1,4 +1,4 @@
-from src.main.SmartphonesDataset import SmartphonesDataset
+from src.data_processing.SmartphonesDataset import SmartphonesDataset
 import matplotlib.pyplot as plt
 import seaborn as sns
 

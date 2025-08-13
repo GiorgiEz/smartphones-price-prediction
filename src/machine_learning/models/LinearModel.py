@@ -15,5 +15,5 @@ class LinearModel(ModelTraining):
         """ Trains the Linear Regression model and saves the results. """
 
         linear_regression = LinearRegression()  # Initialize the Linear Regression model
-        encoded_df = self._one_hot_encoding()  # Encode categorical features
-        self._train_and_write_to_file(linear_regression, encoded_df, 'Linear Regression')
+        encoded_df, one_hot_maps = self._one_hot_encoding()  # Encode categorical features
+        self._train_and_write_to_file(linear_regression, encoded_df, 'Linear Regression', one_hot_maps)
