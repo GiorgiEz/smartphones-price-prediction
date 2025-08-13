@@ -25,4 +25,4 @@ class RandomForestModel(ModelTraining):
         encoded_df, one_hot_maps = self._one_hot_encoding()
 
         # Train the model and save the results to a file
-        self._train_and_write_to_file(random_forest, encoded_df, 'Random Forest', one_hot_maps)
+        return self._train_and_write_to_file(random_forest, encoded_df, 'Random Forest', one_hot_maps)

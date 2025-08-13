@@ -1,24 +1,12 @@
 
-Training Linear Regression: 
-  Metric  Before Feature Engineering  After Feature Engineering
-0    MSE                25561.927741               21341.838734
-1    MAE                  105.934009                  97.866017
-2     R2                    0.816599                   0.846878
-
 Training Random Forest: 
-  Metric  Before Feature Engineering  After Feature Engineering
-0    MSE                16103.461810               25142.144089
-1    MAE                   65.303755                  77.993991
-2     R2                    0.884462                   0.819611
+  Metric        Scores
+0    MSE  16103.461810
+1    MAE     65.303755
+2     R2      0.884462
 
 Training Gradient Boosting: 
-  Metric  Before Feature Engineering  After Feature Engineering
-0    MSE                86747.530402               44646.457688
-1    MAE                   96.849373                  89.717461
-2     R2                    0.377608                   0.679673
-
-Training Decision Tree: 
-  Metric  Before Feature Engineering  After Feature Engineering
-0    MSE                31322.399812              586003.637160
-1    MAE                   87.930714                 168.591582
-2     R2                    0.775269                  -3.204433
+  Metric        Scores
+0    MSE  86747.530402
+1    MAE     96.849373
+2     R2      0.377608
