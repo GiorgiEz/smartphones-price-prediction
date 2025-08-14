@@ -16,7 +16,6 @@ class ModelTraining:
         _df (pd.DataFrame): The raw dataframe containing the smartphone dataset.
         _cat_attributes (list): List of categorical features in the dataset.
         _target_var (str): The target variable for model training.
-        _results_file_path (str): File path ('model_results.txt') to store model evaluation results.
 
     Methods:
         __init__(self): Initializes the class and loads the dataset.
@@ -33,7 +32,6 @@ class ModelTraining:
         self._df = self._dataset.get_df()
         self._cat_attributes = self._dataset.get_categorical_attributes()
         self._target_var = self._dataset.get_target_var()
-        self._results_file_path = 'model_results.txt'
 
     def _get_feature_df(self, df):
         """
@@ -45,25 +43,6 @@ class ModelTraining:
             df = df.drop(columns=['model'])
         if self._target_var in df.columns:
             df = df.drop(columns=[self._target_var])
-        return df
-
-    def _add_derived_features(self, df):
-        """
-        Adds derived features to the dataframe for ML analysis.
-
-        Parameters: df (pd.DataFrame): The input dataframe with required columns.
-        Returns: pd.DataFrame: The dataframe with new derived columns added.
-        """
-        df = df.copy()
-
-        df['processor_power'] = df['num_cores'] * df['processor_speed']
-        df['battery_life_indicator'] = df['battery_capacity'] / df['processor_speed']
-        df['pixel_density'] = (df['resolution_height'] * df['resolution_width']) / (df['screen_size'] ** 2)
-        df['camera_pixel_quality'] = df['primary_camera_rear'] + df['primary_camera_front']
-        df['performance_index'] = (
-                0.3 * df['num_cores'] + 0.3 * df['ram_capacity'] +
-                0.3 * df['processor_speed'] + 0.1 * df['internal_memory']
-        )
         return df
 
     def _one_hot_encoding(self):
@@ -102,19 +81,13 @@ class ModelTraining:
         return (mean_squared_error(y_test, y_pred),
                 mean_absolute_error(y_test, y_pred),
                 r2_score(y_test, y_pred),
-                model,
-                X_train.columns)
+                model)
 
     def _train_and_write_to_file(self, model, encoded_df, model_name, encoding_maps):
         """ Trains the given model and writes the results to file. """
-        # We perform feature engineering on encoded dataframe
-        derived_features_df = self._add_derived_features(encoded_df)
+        mse_before, mae_before, r2_before, trained_model = self._train_model(model, encoded_df)
 
-        # Before feature engineering
-        mse_before, mae_before, r2_before, _, _ = self._train_model(model, encoded_df)
-
-        # After feature engineering
-        mse_after, mae_after, r2_after, trained_model, feature_columns = self._train_model(model, derived_features_df)
+        feature_columns = self._get_feature_df(encoded_df).columns.tolist()
 
         # Save trained model & feature order
         save_path = f"saved_models/{model_name.replace(' ', '_').lower()}_model.pkl"
@@ -122,14 +95,14 @@ class ModelTraining:
         if model_name == 'Gradient Boosting':
             joblib.dump({
                 "model": trained_model,
-                "features": list(feature_columns),
+                "features": feature_columns,
                 "maps": encoding_maps,
-                "type": "frequency"
+                "type": "one-hot"
             }, save_path)
         else:
             joblib.dump({
                 "model": trained_model,
-                "features": list(feature_columns),
+                "features": feature_columns,
                 "maps": encoding_maps,
                 "type": "one-hot"
             }, save_path)
@@ -137,17 +110,7 @@ class ModelTraining:
         print(f"✅ Model saved to {save_path}")
 
         # A comparison table
-        results = pd.DataFrame({
+        return pd.DataFrame({
             "Metric": ["MSE", "MAE", "R2"],
-            "Before Feature Engineering": [mse_before, mae_before, r2_before],
-            "After Feature Engineering": [mse_after, mae_after, r2_after],
+            "Scores": [mse_before, mae_before, r2_before]
         })
-
-        # Save the results in a TXT file
-        try:
-            with open(self._results_file_path, 'a') as f:
-                f.write(f"\nTraining {model_name}: \n")
-                f.write(results.to_string() + '\n')
-            print(f"Results written successfully! for {model_name} \n")
-        except Exception as e:
-            print(f"Error: {e}")

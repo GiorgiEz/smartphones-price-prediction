@@ -1,4 +1,3 @@
-from src.machine_learning.ModelTraining import ModelTraining
 import joblib
 import pandas as pd
 
@@ -28,14 +27,13 @@ new_phone = {
 }
 
 def predict():
-    models = ["gradient_boosting_model", "linear_regression_model", "decision_tree_model", "random_forest_model"]
+    models = ["gradient_boosting_model", "random_forest_model"]
 
     for model_name in models:
         saved = joblib.load(f"../main/saved_models/{model_name}.pkl")
         model = saved["model"]
-        feature_columns = saved["features"]
         encoding_maps = saved["maps"]
-        encoding_type = saved.get("type", "frequency")  # default to frequency
+        encoding_type = saved.get("type", "frequency")
 
         df_new = pd.DataFrame([new_phone])
 
@@ -50,12 +48,7 @@ def predict():
                     df_new[col] = (df_new[cat] == category_value).astype(int)
                 df_new.drop(columns=[cat], inplace=True)
 
-        # Derived features
-        mt = ModelTraining()
-        df_new = mt._add_derived_features(df_new)
-
-        # Match column order
-        df_new = df_new[feature_columns]
+        df_new = df_new[saved["features"]]
 
         predicted_price = model.predict(df_new)[0]
         print(f"Model: {model_name}, Actual Price: {actual_price}, Predicted Price: {predicted_price}")

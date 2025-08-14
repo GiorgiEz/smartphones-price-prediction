@@ -1,6 +1,6 @@
 from src.data_processing.RunDataProcessing import RunDataProcessing
 from src.machine_learning.RunML import RunML
-
+from src.price_prediction.predict import predict
 
 
 if __name__ == '__main__':
@@ -15,3 +15,6 @@ if __name__ == '__main__':
     """ Part 3: Machine Learning """
     machine_learning = RunML()  # Call Machine Learning class
     machine_learning.run_prediction_models()  # Run ML prediction models
+
+    """ Part 4: Price Prediction Using Example Input"""
+    predict()

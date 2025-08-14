@@ -18,11 +18,7 @@ class RandomForestModel(ModelTraining):
         Trains the Random Forest regression model using the dataset.
         The model is trained on the encoded dataset, and the training results are written to a file.
         """
-        # Initialize the Random Forest Regressor model
-        random_forest = RandomForestRegressor(random_state=42, n_estimators=100)
-
-        # Perform one-hot encoding on the dataset to prepare it for training
+        random_forest = RandomForestRegressor(random_state=42, n_estimators=110)
         encoded_df, one_hot_maps = self._one_hot_encoding()
 
-        # Train the model and save the results to a file
-        self._train_and_write_to_file(random_forest, encoded_df, 'Random Forest', one_hot_maps)
+        return self._train_and_write_to_file(random_forest, encoded_df, 'Random Forest', one_hot_maps)
