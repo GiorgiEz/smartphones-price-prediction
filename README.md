@@ -12,7 +12,8 @@ This project aims to analyze and predict smartphone prices based on various feat
 6. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
 7. [Model Training and Evaluation](#model-training-and-evaluation)
 8. [Results](#results)
-9. [Future Work](#future-work)
+9. [Price Prediction](#price-prediction)
+10. [Future Work](#future-work)
 
 ## Introduction
 With the growing demand for smartphones, understanding pricing strategies is critical for manufacturers and retailers. This project utilizes machine learning models to predict smartphone prices based on various specifications and features provided in a dataset of 980 smartphones.
@@ -111,12 +112,10 @@ These visualizations enable a deep dive into the dataset, shedding light on impo
 
 In this project, multiple machine learning models are trained and evaluated on a dataset to predict smartphone price. The following models are used:
 
-- **Linear Regression**
 - **Random Forest Regressor**
 - **Gradient Boosting Regressor**
-- **Decision Tree Regressor**
 
-Each model is trained on the same dataset, with feature engineering applied before training. The dataset is preprocessed using one-hot encoding and frequency encoding, followed by the addition of derived features such as `processor_power`, `price_per_core`, `price_per_gb_ram`, `battery_life_indicator`, `pixel_density`, `camera_pixel_quality` and `performance_index`. 
+Each model is trained on the same dataset. The dataset is preprocessed using one-hot encoding and frequency encoding.
 The models are evaluated based on the following metrics:
 - **MSE (Mean Squared Error)**
 - **MAE (Mean Absolute Error)**
@@ -126,35 +125,25 @@ The training results for each model are reported both **before** and **after** f
 
 ## Results
 
-### Training Linear Regression:
-| Metric | Before Feature Engineering | After Feature Engineering |
-|--------|----------------------------|---------------------------|
-| MSE    | 26929                      | 991                       |
-| MAE    | 108                        | 16                        |
-| R2     | 0.82                       | 0.99                      |
-
 ### Training Random Forest:
-| Metric | Before Feature Engineering | After Feature Engineering |
-|--------|----------------------------|---------------------------|
-| MSE    | 17440                      | 2463                      |
-| MAE    | 67                         | 11                        |
-| R2     | 0.88                       | 0.98                      |
+| Metric | Scores |
+|--------|--------|
+| MSE    | 15663  |
+| MAE    | 64     |
+| R2     | 0.88   |
 
 ### Training Gradient Boosting:
-| Metric | Before Feature Engineering | After Feature Engineering |
-|--------|----------------------------|---------------------------|
-| MSE    | 91702                      | 1135                      |
-| MAE    | 100                        | 10                        |
-| R2     | 0.38                       | 0.99                      |
-
-### Training Decision Tree:
-| Metric | Before Feature Engineering | After Feature Engineering |
-|--------|----------------------------|---------------------------|
-| MSE    | 23927                      | 4262                      |
-| MAE    | 86                         | 15                        |
-| R2     | 0.84                       | 0.97                      |
+| Metric | Scores |
+|--------|--------|
+| MSE    | 19514  |
+| MAE    | 85     |
+| R2     | 0.85   |
 
 These results demonstrate the improvement in model performance after feature engineering, with notable increases in R-squared values and decreases in MSE and MAE across all models.
+
+## Price Prediction
+
+We can enter the input and actual price of the phone in price_prediction/predict.py and run the predict.py to get the predicted results.
 
 ## Future Work
 - Expand the dataset with more recent smartphone data.

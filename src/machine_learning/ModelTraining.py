@@ -97,7 +97,7 @@ class ModelTraining:
                 "model": trained_model,
                 "features": feature_columns,
                 "maps": encoding_maps,
-                "type": "frequency"
+                "type": "one-hot"
             }, save_path)
         else:
             joblib.dump({

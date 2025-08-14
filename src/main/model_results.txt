@@ -1,12 +1,12 @@
 
 Training Random Forest: 
   Metric        Scores
-0    MSE  16103.461810
-1    MAE     65.303755
-2     R2      0.884462
+0    MSE  15663.804653
+1    MAE     64.840350
+2     R2      0.887616
 
 Training Gradient Boosting: 
   Metric        Scores
-0    MSE  86747.530402
-1    MAE     96.849373
-2     R2      0.377608
+0    MSE  19514.141782
+1    MAE     85.961276
+2     R2      0.859991
