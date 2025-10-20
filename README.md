@@ -121,8 +121,6 @@ The models are evaluated based on the following metrics:
 - **MAE (Mean Absolute Error)**
 - **R2 (R-squared)**
 
-The training results for each model are reported both **before** and **after** feature engineering.
-
 ## Results
 
 ### Training Random Forest:
@@ -138,8 +136,6 @@ The training results for each model are reported both **before** and **after** f
 | MSE    | 19514  |
 | MAE    | 85     |
 | R2     | 0.85   |
-
-These results demonstrate the improvement in model performance after feature engineering, with notable increases in R-squared values and decreases in MSE and MAE across all models.
 
 ## Price Prediction
 
